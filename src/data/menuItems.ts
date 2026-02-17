@@ -78,7 +78,7 @@ export const menuItems: MenuItem[] = [
         id: 'sweet-lassi',
         name: 'Sweet Lassi',
         price: 90,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB58R09Ys1M12Z-KUUoaP31IesRH8GIjYoG2kDfKMxX4bN_9SlJurjUQEBMR_uY-6WZ4U79YL-Bilf4zvBNe33BKOkaDLuH7Vj5rHo_s0NhI4WjSRbnhh4-T7RU7rUPVRF_a--CuKMiUiWSDT_YbiOl962aQKrIF7sZTRDBzFY0JA-mXh_wEsUq6e0HTuftkj_nEdA9weYCUPJHfgrp0Sh1FsrAVXAQ_8W5Jc8Knjx6ZAKzBBynEvVquTpithbWk2xgIFme9Onh1-eP',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAv7KJ4lNSadzRxMW0nKQ2RosfXkAdDv_Iw-XKw1xr_GyXKnBhStro2gGZiYIOeQLBDL-nkNNmRhgZeS8L3zOyTUF0oMSOB9rdwOOCKwwweAl0U8BdGpkUNyL50UHJH2fPyXjePhGS9O15zHv-1QSijM2BYILTfBXJ6W4ChWF_RA5ISdridEyr6Vv_HMRZvIRA6xidH8j-J-IbWdqnYHw9kbv-b60rmeAaCsY6hcPyUjGr30A7UGECq6mr1K4btyVyk2odoCraOExNM',
         description: 'Traditional thick yogurt drink topped with malai and dry fruits.',
         type: 'veg',
         category: 'Beverages',
