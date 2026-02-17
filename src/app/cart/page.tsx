@@ -20,7 +20,9 @@ export default function Cart() {
   const subtotal = getTotalPrice();
   const taxRate = 0.05;
   const tax = Math.round(subtotal * taxRate);
-  const total = subtotal + tax;
+  const packagingCharges = 10;
+  const deliveryCharges = subtotal < 600 ? 50 : 0;
+  const total = subtotal + tax + packagingCharges + deliveryCharges;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -147,6 +149,23 @@ export default function Cart() {
                     <span>Taxes &amp; Charges (5%)</span>
                     <span className="font-bold text-white">₹{tax}</span>
                   </div>
+                  <div className="flex justify-between text-sm text-gray-400">
+                    <span>Packaging Charges</span>
+                    <span className="font-bold text-white">₹{packagingCharges}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-400">
+                    <span>Delivery Charges</span>
+                    {deliveryCharges === 0 ? (
+                      <span className="font-bold text-green-500">FREE</span>
+                    ) : (
+                      <span className="font-bold text-white">₹{deliveryCharges}</span>
+                    )}
+                  </div>
+                  {subtotal < 600 && (
+                    <div className="text-xs text-[#E8D595] bg-[#E8D595]/10 px-3 py-2 rounded-lg border border-[#E8D595]/20">
+                      Add ₹{600 - subtotal} more for free delivery!
+                    </div>
+                  )}
                   <div className="flex justify-between text-xl font-[family-name:var(--font-display)] font-bold pt-4 border-t border-white/10 mt-4">
                     <span className="text-[#E8D595]">Total</span>
                     <span className="text-[#E8D595]">₹{total}</span>
@@ -240,8 +259,8 @@ export default function Cart() {
                     <div className="flex flex-col items-center gap-6">
                       <div className="text-center space-y-2">
                         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Scan to Pay</p>
-                        <div className="p-4 bg-white rounded-xl shadow-lg inline-block">
-                          <div className="w-96 h-96 flex items-center justify-center relative overflow-hidden">
+                        <div className="p-4 bg-white rounded-xl shadow-lg">
+                          <div className="w-96 h-96 flex items-center justify-center">
                             <Image
                               alt="Payment QR Code"
                               className="w-full h-full object-contain"
