@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
 export default function Home() {
@@ -20,10 +21,10 @@ export default function Home() {
             Experience the rich heritage of slow-cooked perfection. From the royal kitchens to your table, savor the taste of home with our signature handi biryanis.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <a className="bg-[#E8D595] hover:bg-white text-[#272727] font-bold py-4 px-8 rounded-full shadow-lg shadow-[#E8D595]/10 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2" href="#">
+            <Link className="bg-[#E8D595] hover:bg-white text-[#272727] font-bold py-4 px-8 rounded-full shadow-lg shadow-[#E8D595]/10 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2" href="/menu">
               <span className="material-icons text-sm">restaurant_menu</span>
               Order Now
-            </a>
+            </Link>
             <a className="group flex items-center gap-3 px-6 py-4 rounded-full border border-gray-600 hover:border-[#E8D595] bg-transparent text-white transition-all duration-300" href="#">
               <div className="w-8 h-8 rounded-full bg-[#333333] group-hover:bg-[#E8D595] text-[#E8D595] group-hover:text-[#272727] flex items-center justify-center transition-colors border border-gray-700 group-hover:border-[#E8D595]">
                 <span className="material-icons text-sm">play_arrow</span>
@@ -71,9 +72,9 @@ export default function Home() {
             <p className="text-[#272727]/80 mb-8 font-medium max-w-2xl mx-auto">
               Browse our royal catalog featuring Hyderabadi, Lucknowi, and Kolkata style biryanis made with authentic spices.
             </p>
-            <a className="inline-block bg-[#272727] text-[#E8D595] hover:bg-black font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 border border-transparent hover:border-[#E8D595]/50" href="#">
+            <Link className="inline-block bg-[#272727] text-[#E8D595] hover:bg-black font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 border border-transparent hover:border-[#E8D595]/50" href="/menu">
               Explore Full Menu
-            </a>
+            </Link>
           </div>
         </div>
       </div>
