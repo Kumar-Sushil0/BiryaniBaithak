@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navigation from "@/components/Navigation";
 import { useSearchParams } from "next/navigation";
 
-export default function OrderSuccess() {
+function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const [total, setTotal] = useState("0");
 
@@ -82,5 +82,17 @@ export default function OrderSuccess() {
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>
     </div>
+  );
+}
+
+export default function OrderSuccess() {
+  return (
+    <Suspense fallback={
+      <div className="bg-[#272727] min-h-screen flex items-center justify-center">
+        <div className="text-[#E8D595] text-xl">Loading...</div>
+      </div>
+    }>
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
