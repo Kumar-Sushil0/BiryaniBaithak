@@ -2,16 +2,63 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { useCart } from "@/context/CartContext";
+import { useState } from "react";
 
 export default function Cart() {
-  const { cart, updateQuantity, removeFromCart, getTotalPrice } = useCart();
+  const router = useRouter();
+  const { cart, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    orderType: "Home Delivery",
+    address: "",
+  });
 
   const subtotal = getTotalPrice();
   const taxRate = 0.05;
   const tax = Math.round(subtotal * taxRate);
   const total = subtotal + tax;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePlaceOrder = () => {
+    // Validate form
+    if (!formData.name || !formData.phone) {
+      alert("Please fill in your name and phone number");
+      return;
+    }
+
+    if (formData.orderType === "Home Delivery" && !formData.address) {
+      alert("Please provide your delivery address");
+      return;
+    }
+
+    // Build order summary
+    const orderItems = cart
+      .map((item) => `- ${item.quantity}x ${item.name} (Rs. ${item.price * item.quantity})`)
+      .join("%0A");
+
+    // Build WhatsApp message
+    const message = `Hello The Biryani Baithak, I would like to place an order!%0A%0A- CUSTOMER DETAILS -%0AName: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AStyle: ${encodeURIComponent(formData.orderType)}%0AAddress: ${encodeURIComponent(formData.address)}%0A%0A- ORDER SUMMARY -%0A${orderItems}%0A%0A--------------------------%0ATOTAL AMOUNT: Rs. ${total}%0A--------------------------%0A%0A- PAYMENT VIA UPI -%0Aupi://pay?pa=9111676448@ybl&pn=The%20Biryani%20Baithak&am=${total}&cu=INR%0A%0APlease confirm my order once you receive the payment. Thank you!`;
+
+    // Open WhatsApp
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=9111676448&text=${message}&type=phone_number&app_absent=0`;
+    window.open(whatsappUrl, "_blank");
+
+    // Clear the cart
+    clearCart();
+
+    // Redirect to success page
+    router.push(`/order-success?total=${total}`);
+  };
 
   return (
     <div className="bg-[#272727] font-[family-name:var(--font-body)] antialiased transition-colors duration-300 hero-pattern min-h-screen flex flex-col text-[#F2F2F2] pb-24 overflow-x-hidden">
@@ -123,6 +170,9 @@ export default function Cart() {
                         Full Name <span className="text-[#E8D595]">*</span>
                       </label>
                       <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
                         className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600"
                         placeholder="Ex. Rahul Kumar"
                         type="text"
@@ -133,6 +183,9 @@ export default function Cart() {
                         Mobile Number <span className="text-[#E8D595]">*</span>
                       </label>
                       <input
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600"
                         placeholder="Ex. 9876543210"
                         type="tel"
@@ -144,7 +197,12 @@ export default function Cart() {
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">Order Type</label>
                     <div className="relative">
-                      <select className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all appearance-none cursor-pointer">
+                      <select
+                        name="orderType"
+                        value={formData.orderType}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all appearance-none cursor-pointer"
+                      >
                         <option>Home Delivery</option>
                         <option>Takeaway</option>
                       </select>
@@ -158,11 +216,24 @@ export default function Cart() {
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">Delivery Address</label>
                     <textarea
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
                       className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600 resize-none"
                       placeholder="Street name, House no, Landmark"
                       rows={3}
                     ></textarea>
                   </div>
+
+                  {/* Place Order Button */}
+                  <button
+                    onClick={handlePlaceOrder}
+                    className="w-full bg-[#E8D595] hover:bg-[#C9B675] text-[#272727] font-bold py-4 px-6 rounded-xl shadow-lg shadow-[#E8D595]/20 transition-all flex items-center justify-center gap-2 transform active:scale-95"
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined">send</span>
+                    Place Order via WhatsApp
+                  </button>
 
                   {/* Payment Section */}
                   <div className="pt-6 border-t border-white/5">
@@ -170,26 +241,19 @@ export default function Cart() {
                       <div className="text-center space-y-2">
                         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Scan to Pay</p>
                         <div className="p-4 bg-white rounded-xl shadow-lg inline-block">
-                          <div className="w-32 h-32 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                          <div className="w-96 h-96 flex items-center justify-center relative overflow-hidden">
                             <Image
                               alt="Payment QR Code"
-                              className="w-full h-full object-contain mix-blend-multiply"
-                              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc-0L8Z-KPkiXRaTq6rs0QJzuVcyd-8AL_MXHq0-IT--8OgJxXB9rgchYHU26uVXrZgcftFQQ2oNKiuoUyOz19lsZj6U-1l4ohST6W9iUA8BF_TR-jmOVH_troyvycRw_mKuNGBKJOqDNVyVayIfXZHzy8QkuFu1kl3jXYns5qi6fUlUIaGkUhSeTyiLMraqPtuHnJbJRaLppIImPD2myxjwo0kcsM6QdNsds7-TTmxKDRgFKDZ_x3t3aNv-ndVVQ-G5lg7xfr60J0"
-                              width={128}
-                              height={128}
+                              className="w-full h-full object-contain"
+                              src="/qr.jpg"
+                              width={384}
+                              height={384}
                             />
                           </div>
                           <div className="mt-2 text-center font-bold text-[#272727] text-lg">₹{total}</div>
                         </div>
                         <p className="text-xs text-gray-500">You can pay by scanning this QR code</p>
                       </div>
-                      <button
-                        className="w-full md:max-w-md bg-[#E8D595] hover:bg-[#C9B675] text-[#272727] font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-[#E8D595]/20 transition-all flex items-center justify-center gap-2 transform active:scale-95"
-                        type="button"
-                      >
-                        <span className="material-symbols-outlined">account_balance_wallet</span>
-                        Pay via UPI App
-                      </button>
                     </div>
                   </div>
 

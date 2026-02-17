@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
 
 interface MenuItemCardProps {
     id: string;
@@ -23,11 +22,13 @@ export default function MenuItemCard({
     type,
     bestseller = false,
 }: MenuItemCardProps) {
-    const { addToCart } = useCart();
-    const [isAdding, setIsAdding] = useState(false);
+    const { cart, addToCart, updateQuantity } = useCart();
+    
+    // Find if this item is already in the cart
+    const cartItem = cart.find((item) => item.id === id);
+    const quantity = cartItem?.quantity || 0;
 
     const handleAddToCart = () => {
-        setIsAdding(true);
         addToCart({
             id,
             name,
@@ -36,11 +37,18 @@ export default function MenuItemCard({
             description,
             type,
         });
+    };
 
-        // Reset animation after a short delay
-        setTimeout(() => {
-            setIsAdding(false);
-        }, 300);
+    const handleIncrement = () => {
+        updateQuantity(id, quantity + 1);
+    };
+
+    const handleDecrement = () => {
+        if (quantity > 1) {
+            updateQuantity(id, quantity - 1);
+        } else {
+            updateQuantity(id, 0); // This will remove the item
+        }
     };
 
     return (
@@ -77,13 +85,31 @@ export default function MenuItemCard({
                 <p className="text-sm text-gray-400 font-light mb-4 flex-grow line-clamp-2">
                     {description}
                 </p>
-                <button
-                    onClick={handleAddToCart}
-                    className={`w-full py-2.5 rounded-full bg-[#E8D595] hover:bg-white text-[#272727] font-bold text-sm uppercase tracking-wide transition-all shadow-lg shadow-[#E8D595]/20 ${isAdding ? 'scale-95' : 'scale-100'
-                        }`}
-                >
-                    {isAdding ? 'Added!' : 'Add to Cart'}
-                </button>
+                
+                {quantity === 0 ? (
+                    <button
+                        onClick={handleAddToCart}
+                        className="w-full py-2.5 rounded-full bg-[#E8D595] hover:bg-white text-[#272727] font-bold text-sm uppercase tracking-wide transition-all shadow-lg shadow-[#E8D595]/20"
+                    >
+                        Add to Cart
+                    </button>
+                ) : (
+                    <div className="w-full py-2 rounded-full bg-[#E8D595] text-[#272727] font-bold text-sm flex items-center justify-between px-4 shadow-lg shadow-[#E8D595]/20">
+                        <button
+                            onClick={handleDecrement}
+                            className="w-8 h-8 rounded-full hover:bg-white/30 flex items-center justify-center transition-colors"
+                        >
+                            <span className="material-icons text-lg">remove</span>
+                        </button>
+                        <span className="text-lg font-bold">{quantity}</span>
+                        <button
+                            onClick={handleIncrement}
+                            className="w-8 h-8 rounded-full hover:bg-white/30 flex items-center justify-center transition-colors"
+                        >
+                            <span className="material-icons text-lg">add</span>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 
@@ -13,9 +14,17 @@ export default function Navigation() {
     <div className="container mx-auto px-12 md:px-20 lg:px-32 py-6 relative z-10">
       <nav className="bg-[#333333] rounded-full shadow-lg shadow-black/20 px-12 md:px-16 py-3 flex justify-between items-center transition-colors duration-300 border border-[#E8D595]/20">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full border-2 border-[#E8D595] flex items-center justify-center text-[#E8D595] font-bold font-[family-name:var(--font-display)] text-lg">
-            BB
-          </div>
+          <Link href="/" className="flex items-center">
+            <div className="h-16 w-auto flex items-center justify-center">
+              <Image
+                src="/logo.png"
+                alt="The Biryani Baithak Logo"
+                width={200}
+                height={64}
+                className="h-full w-auto object-contain"
+              />
+            </div>
+          </Link>
           <span className="text-xl font-[family-name:var(--font-display)] font-bold text-[#E8D595] tracking-wide uppercase">
             The Biryani Baithak
           </span>

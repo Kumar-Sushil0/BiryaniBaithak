@@ -1,8 +1,16 @@
+"use client";
+
+import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import MenuItemCard from "@/components/MenuItemCard";
 import { menuItems } from "@/data/menuItems";
+import { useCart } from "@/context/CartContext";
 
 export default function Menu() {
+  const { getTotalItems, getTotalPrice } = useCart();
+  const totalItems = getTotalItems();
+  const totalPrice = getTotalPrice();
+
   return (
     <div className="bg-[#272727] font-[family-name:var(--font-body)] antialiased transition-colors duration-300 hero-pattern min-h-screen flex flex-col text-[#F2F2F2] pb-24 overflow-x-hidden">
       {/* Sticky Navigation */}
@@ -68,6 +76,31 @@ export default function Menu() {
           ))}
         </div>
       </main>
+
+      {/* Floating View Cart Button */}
+      {totalItems > 0 && (
+        <div className="fixed bottom-0 left-0 w-full p-4 z-50">
+          <div className="container mx-auto max-w-sm px-4">
+            <Link
+              href="/cart"
+              className="w-full bg-[#E8D595] hover:bg-[#C9B675] text-[#272727] py-4 px-6 rounded-full shadow-2xl shadow-black/50 flex justify-between items-center transition-all transform hover:-translate-y-1"
+            >
+              <div className="flex flex-col items-start">
+                <span className="font-bold text-xs uppercase tracking-wider text-[#272727]/70">
+                  {totalItems} {totalItems === 1 ? 'Item' : 'Items'} added
+                </span>
+                <span className="font-bold text-xl text-[#272727]">
+                  ₹{totalPrice}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 font-bold uppercase tracking-wide text-sm">
+                View Cart
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="text-center py-8 text-sm bg-black/20 border-t border-white/5 pb-24">
