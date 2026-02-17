@@ -49,10 +49,10 @@ export default function Cart() {
       .join("%0A");
 
     // Build WhatsApp message
-    const message = `Hello The Biryani Baithak, I would like to place an order!%0A%0A- CUSTOMER DETAILS -%0AName: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AStyle: ${encodeURIComponent(formData.orderType)}%0AAddress: ${encodeURIComponent(formData.address)}%0A%0A- ORDER SUMMARY -%0A${orderItems}%0A%0A--------------------------%0ATOTAL AMOUNT: Rs. ${total}%0A--------------------------%0A%0A- PAYMENT VIA UPI -%0Aupi://pay?pa=9111676448@ybl&pn=The%20Biryani%20Baithak&am=${total}&cu=INR%0A%0APlease confirm my order once you receive the payment. Thank you!`;
+    const message = `Hello The Biryani Baithak, I would like to place an order!%0A%0A- CUSTOMER DETAILS -%0AName: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AStyle: ${encodeURIComponent(formData.orderType)}%0AAddress: ${encodeURIComponent(formData.address)}%0A%0A- ORDER SUMMARY -%0A${orderItems}%0A%0A--------------------------%0ATOTAL AMOUNT: Rs. ${total}%0A--------------------------%0A%0A- PAYMENT VIA UPI -%0Aupi://pay?pa=ashokatiles1951-1@okaxis&pn=Ashok%20Ahuja&am=${total}&cu=INR%0A%0APlease confirm my order once you receive the payment. Thank you!`;
 
     // Open WhatsApp
-    const whatsappUrl = `https://api.whatsapp.com/send/?phone=9111676448&text=${message}&type=phone_number&app_absent=0`;
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=918318426533&text=${message}&type=phone_number&app_absent=0`;
     window.open(whatsappUrl, "_blank");
 
     // Clear the cart
