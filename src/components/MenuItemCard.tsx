@@ -53,29 +53,22 @@ export default function MenuItemCard({
 
     return (
         <div className="bg-[#333333] rounded-2xl overflow-hidden border border-white/10 shadow-lg hover:shadow-[#E8D595]/10 hover:border-[#E8D595]/30 transition-all duration-300 group flex flex-col">
-            <div className="relative h-48 overflow-hidden">
-                <Image
-                    alt={name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    src={image}
-                    width={400}
-                    height={300}
-                />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded shadow-md flex items-center gap-1">
-                    <span className={`w-3 h-3 border ${type === 'veg' ? 'border-green-600' : 'border-red-600'} flex items-center justify-center p-[1px]`}>
-                        <span className={`w-full h-full rounded-full ${type === 'veg' ? 'bg-green-600' : 'bg-red-600'}`}></span>
-                    </span>
-                    <span className="text-[10px] font-bold text-gray-800 uppercase tracking-wide">
-                        {type === 'veg' ? 'Veg' : 'Non-Veg'}
-                    </span>
-                </div>
-                {bestseller && (
-                    <div className="absolute top-3 right-3 bg-[#E8D595] text-[#272727] text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
-                        Bestseller
-                    </div>
-                )}
-            </div>
             <div className="p-5 flex flex-col flex-grow">
+                <div className="flex items-start gap-3 mb-3">
+                    <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded shadow-md flex items-center gap-1 shrink-0">
+                        <span className={`w-3 h-3 border ${type === 'veg' ? 'border-green-600' : 'border-red-600'} flex items-center justify-center p-[1px]`}>
+                            <span className={`w-full h-full rounded-full ${type === 'veg' ? 'bg-green-600' : 'bg-red-600'}`}></span>
+                        </span>
+                        <span className="text-[10px] font-bold text-gray-800 uppercase tracking-wide">
+                            {type === 'veg' ? 'Veg' : 'Non-Veg'}
+                        </span>
+                    </div>
+                    {bestseller && (
+                        <div className="bg-[#E8D595] text-[#272727] text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                            Bestseller
+                        </div>
+                    )}
+                </div>
                 <div className="flex justify-between items-start mb-2">
                     <h3 className="font-[family-name:var(--font-display)] font-bold text-xl text-[#E8D595] leading-tight">
                         {name}
