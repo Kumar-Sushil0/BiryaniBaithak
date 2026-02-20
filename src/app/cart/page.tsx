@@ -15,6 +15,7 @@ export default function Cart() {
     phone: "",
     orderType: "Home Delivery",
     address: "",
+    tableNo: "",
   });
 
   const subtotal = getTotalPrice();
@@ -43,7 +44,12 @@ export default function Cart() {
       return;
     }
 
-    // Build order summary
+    if (formData.orderType === "Dining" && !formData.tableNo) {
+      alert("Please provide your table number");
+      return;
+    }
+
+    // Build order items
     const orderItems = cart
       .map((item) => {
         const variantText = item.variant ? ` (${item.variant})` : '';
@@ -51,8 +57,17 @@ export default function Cart() {
       })
       .join("%0A");
 
+    // Build order details based on type
+    let orderDetails = `Hello The Biryani Baithak, I would like to place an order!%0A%0A- CUSTOMER DETAILS -%0AName: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AOrder Type: ${encodeURIComponent(formData.orderType)}%0A`;
+    
+    if (formData.orderType === "Home Delivery") {
+      orderDetails += `Address: ${encodeURIComponent(formData.address)}%0A`;
+    } else if (formData.orderType === "Dining") {
+      orderDetails += `Table No: ${encodeURIComponent(formData.tableNo)}%0A`;
+    }
+
     // Build WhatsApp message
-    const message = `Hello The Biryani Baithak, I would like to place an order!%0A%0A- CUSTOMER DETAILS -%0AName: ${encodeURIComponent(formData.name)}%0APhone: ${encodeURIComponent(formData.phone)}%0AStyle: ${encodeURIComponent(formData.orderType)}%0AAddress: ${encodeURIComponent(formData.address)}%0A%0A- ORDER SUMMARY -%0A${orderItems}%0A%0A--------------------------%0ATOTAL AMOUNT: Rs. ${total}%0A--------------------------%0A%0A- PAYMENT VIA UPI -%0Aupi://pay?pa=ashokatiles1951-1@okaxis&pn=Ashok%20Ahuja&am=${total}&cu=INR%0A%0APlease confirm my order once you receive the payment. Thank you!`;
+    const message = `${orderDetails}%0A- ORDER SUMMARY -%0A${orderItems}%0A%0A--------------------------%0ATOTAL AMOUNT: Rs. ${total}%0A--------------------------%0A%0A- PAYMENT VIA UPI -%0Aupi://pay?pa=ashokatiles1951-1@okaxis&pn=Ashok%20Ahuja&am=${total}&cu=INR%0A%0APlease confirm my order once you receive the payment. Thank you!`;
 
     // Open WhatsApp
     const whatsappUrl = `https://api.whatsapp.com/send/?phone=918318426533&text=${message}&type=phone_number&app_absent=0`;
@@ -231,6 +246,7 @@ export default function Cart() {
                       >
                         <option>Home Delivery</option>
                         <option>Takeaway</option>
+                        <option>Dining</option>
                       </select>
                       <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#E8D595] pointer-events-none material-symbols-outlined">
                         expand_more
@@ -238,18 +254,39 @@ export default function Cart() {
                     </div>
                   </div>
 
-                  {/* Delivery Address */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">Delivery Address</label>
-                    <textarea
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600 resize-none"
-                      placeholder="Street name, House no, Landmark"
-                      rows={3}
-                    ></textarea>
-                  </div>
+                  {/* Delivery Address - Only show for Home Delivery */}
+                  {formData.orderType === "Home Delivery" && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">
+                        Delivery Address <span className="text-[#E8D595]">*</span>
+                      </label>
+                      <textarea
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600 resize-none"
+                        placeholder="Street name, House no, Landmark"
+                        rows={3}
+                      ></textarea>
+                    </div>
+                  )}
+
+                  {/* Table Number - Only show for Dining */}
+                  {formData.orderType === "Dining" && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">
+                        Table Number <span className="text-[#E8D595]">*</span>
+                      </label>
+                      <input
+                        name="tableNo"
+                        value={formData.tableNo}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600"
+                        placeholder="Ex. Table 5"
+                        type="text"
+                      />
+                    </div>
+                  )}
 
                   {/* Place Order Button */}
                   <button
