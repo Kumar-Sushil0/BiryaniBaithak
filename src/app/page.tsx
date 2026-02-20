@@ -82,7 +82,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="text-center py-8 text-sm bg-black/20 border-t border-white/5">
         <p className="text-[#E8D595] font-[family-name:var(--font-display)] font-bold text-lg mb-2">The Biryani Baithak</p>
-        <p className="text-gray-500">© 2024. All rights reserved.</p>
+        <p className="text-gray-500">© 2026. All rights reserved.</p>
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>
     </div>

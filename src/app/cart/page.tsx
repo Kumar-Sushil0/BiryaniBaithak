@@ -45,7 +45,10 @@ export default function Cart() {
 
     // Build order summary
     const orderItems = cart
-      .map((item) => `- ${item.quantity}x ${item.name} (Rs. ${item.price * item.quantity})`)
+      .map((item) => {
+        const variantText = item.variant ? ` (${item.variant})` : '';
+        return `- ${item.quantity}x ${item.name}${variantText} (Rs. ${item.price * item.quantity})`;
+      })
       .join("%0A");
 
     // Build WhatsApp message
@@ -97,8 +100,10 @@ export default function Cart() {
 
               <div className="bg-[#333333] rounded-2xl p-6 border border-white/10 shadow-lg">
                 <div className="flex flex-col gap-6">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4 border-b border-white/5 pb-6 last:border-b-0 last:pb-0">
+                  {cart.map((item) => {
+                    const itemKey = item.variant ? `${item.id}-${item.variant}` : item.id;
+                    return (
+                    <div key={itemKey} className="flex items-center gap-4 border-b border-white/5 pb-6 last:border-b-0 last:pb-0">
                       <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-white/10">
                         <Image
                           alt={item.name}
@@ -111,24 +116,25 @@ export default function Cart() {
                       <div className="grow">
                         <h3 className="font-[family-name:var(--font-display)] font-bold text-lg text-[#E8D595] leading-tight mb-1">
                           {item.name}
+                          {item.variant && <span className="text-sm text-gray-400 ml-2">({item.variant})</span>}
                         </h3>
                         <div className="text-sm font-bold text-white mb-2">₹{item.price}</div>
                         <div className="flex items-center gap-3">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity - 1, item.variant)}
                             className="w-6 h-6 rounded-full border border-[#E8D595]/50 text-[#E8D595] hover:bg-[#E8D595] hover:text-[#272727] flex items-center justify-center transition-colors"
                           >
                             <span className="material-icons text-sm">remove</span>
                           </button>
                           <span className="text-white font-bold w-4 text-center">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1, item.variant)}
                             className="w-6 h-6 rounded-full border border-[#E8D595]/50 text-[#E8D595] hover:bg-[#E8D595] hover:text-[#272727] flex items-center justify-center transition-colors"
                           >
                             <span className="material-icons text-sm">add</span>
                           </button>
                           <button
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => removeFromCart(item.id, item.variant)}
                             className="ml-auto text-red-400 hover:text-red-300 transition-colors"
                           >
                             <span className="material-icons text-sm">delete</span>
@@ -136,7 +142,8 @@ export default function Cart() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  )})}
+
                 </div>
 
                 {/* Price Summary */}
@@ -317,7 +324,7 @@ export default function Cart() {
         <p className="text-[#E8D595] font-[family-name:var(--font-display)] font-bold text-lg mb-2">
           The Biryani Baithak
         </p>
-        <p className="text-gray-500">© 2024. All rights reserved.</p>
+        <p className="text-gray-500">© 2026. All rights reserved.</p>
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>
     </div>
