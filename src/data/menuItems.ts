@@ -185,7 +185,7 @@ export const menuItems: MenuItem[] = [
         id: 'veg-seekh-kebab-2pc',
         name: 'Veg Seekh Kebab (2 pc.)',
         price: 100,
-        image: '/images/menu/paneertikka.png',
+        image: '/images/menu/vegseekhkebab.jpeg',
         description: 'Minced vegetable seekh kebabs',
         type: 'veg',
         category: 'Veg Kebabs',
