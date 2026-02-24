@@ -15,7 +15,6 @@ export default function Cart() {
     phone: "",
     orderType: "Home Delivery",
     address: "",
-    tableNo: "",
   });
 
   const subtotal = getTotalPrice();
@@ -44,11 +43,6 @@ export default function Cart() {
       return;
     }
 
-    if (formData.orderType === "Dining" && !formData.tableNo) {
-      alert("Please provide your table number");
-      return;
-    }
-
     // Build order items
     const orderItems = cart
       .map((item) => {
@@ -62,8 +56,6 @@ export default function Cart() {
     
     if (formData.orderType === "Home Delivery") {
       orderDetails += `Address: ${encodeURIComponent(formData.address)}%0A`;
-    } else if (formData.orderType === "Dining") {
-      orderDetails += `Table No: ${encodeURIComponent(formData.tableNo)}%0A`;
     }
 
     // Build WhatsApp message
@@ -246,7 +238,6 @@ export default function Cart() {
                       >
                         <option>Home Delivery</option>
                         <option>Takeaway</option>
-                        <option>Dining</option>
                       </select>
                       <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#E8D595] pointer-events-none material-symbols-outlined">
                         expand_more
@@ -268,23 +259,6 @@ export default function Cart() {
                         placeholder="Street name, House no, Landmark"
                         rows={3}
                       ></textarea>
-                    </div>
-                  )}
-
-                  {/* Table Number - Only show for Dining */}
-                  {formData.orderType === "Dining" && (
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-400 uppercase tracking-wide">
-                        Table Number <span className="text-[#E8D595]">*</span>
-                      </label>
-                      <input
-                        name="tableNo"
-                        value={formData.tableNo}
-                        onChange={handleInputChange}
-                        className="w-full bg-[#272727]/50 border border-white/10 focus:border-[#E8D595] text-white rounded-lg px-4 py-3 outline-none transition-all placeholder-gray-600"
-                        placeholder="Ex. Table 5"
-                        type="text"
-                      />
                     </div>
                   )}
 
