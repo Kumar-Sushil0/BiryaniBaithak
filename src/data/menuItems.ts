@@ -167,7 +167,7 @@ export const menuItems: MenuItem[] = [
         id: 'veg-kebab-2pc',
         name: 'Veg Kebab (2 pcs.)',
         price: 80,
-        image: '/images/menu/paneertikka.png',
+        image: '/images/menu/vegkebab.jpeg',
         description: 'Two pieces of mixed vegetable kebabs',
         type: 'veg',
         category: 'Veg Kebabs',
@@ -176,7 +176,7 @@ export const menuItems: MenuItem[] = [
         id: 'spl-rajma-kebab-2pc',
         name: 'Spl. Rajma Kebab (2 pc.)',
         price: 100,
-        image: '/images/menu/paneertikka.png',
+        image: '/images/menu/rajmakebab.jpeg',
         description: 'Special kidney bean kebabs',
         type: 'veg',
         category: 'Veg Kebabs',
@@ -414,6 +414,19 @@ export const menuItems: MenuItem[] = [
         type: 'veg',
         category: 'Veg Biryani',
     },
+    {
+        id: 'jackfruit-biryani',
+        name: 'Jackfruit Biryani (Kathail Biryani)',
+        price: 160,
+        priceVariants: [
+            { label: 'Half', price: 160 },
+            { label: 'Full', price: 300 },
+        ],
+        image: '/images/menu/kathalbiryani.png',
+        description: 'Aromatic biryani with tender jackfruit pieces',
+        type: 'veg',
+        category: 'Veg Biryani',
+    },
 
     // Non-Veg Biryani
     {
@@ -547,6 +560,19 @@ export const menuItems: MenuItem[] = [
         type: 'non-veg',
         category: 'Non-Veg Biryani',
     },
+    {
+        id: 'smoky-chicken-murg-tikka-biryani',
+        name: 'Smoky Chicken Murg Tikka Biryani',
+        price: 180,
+        priceVariants: [
+            { label: 'Half', price: 180 },
+            { label: 'Full', price: 340 },
+        ],
+        image: '/images/menu/smokeychickenmurgtikka.png',
+        description: 'Smoky chicken tikka biryani with aromatic spices',
+        type: 'non-veg',
+        category: 'Non-Veg Biryani',
+    },
 
     // Rice
     {
@@ -658,6 +684,15 @@ export const menuItems: MenuItem[] = [
         image: '/images/menu/churchurnaan.png',
         description: 'Crispy layered naan',
         type: 'veg',
+        category: 'Breads',
+    },
+    {
+        id: 'mutton-keema-kulcha',
+        name: 'Mutton Keema Kulcha with Gravy',
+        price: 220,
+        image: '/images/menu/muttonkeemakulcha.png',
+        description: 'Stuffed kulcha with mutton keema served with gravy',
+        type: 'non-veg',
         category: 'Breads',
     },
 ];

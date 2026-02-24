@@ -82,6 +82,20 @@ export default function Home() {
       {/* Footer */}
       <footer className="text-center py-8 text-sm bg-black/20 border-t border-white/5">
         <p className="text-[#E8D595] font-[family-name:var(--font-display)] font-bold text-lg mb-2">The Biryani Baithak</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 my-4 text-gray-400">
+          <a href="tel:9220975663" className="flex items-center gap-2 hover:text-[#E8D595] transition-colors">
+            <span className="material-icons text-sm">call</span>
+            <span>9220975663</span>
+          </a>
+          <a href="https://wa.me/918318426533" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#E8D595] transition-colors">
+            <span className="material-icons text-sm">chat</span>
+            <span>8318426533</span>
+          </a>
+          <a href="mailto:thebiryanibaithak21@gmail.com" className="flex items-center gap-2 hover:text-[#E8D595] transition-colors">
+            <span className="material-icons text-sm">email</span>
+            <span>thebiryanibaithak21@gmail.com</span>
+          </a>
+        </div>
         <p className="text-gray-500">© 2026. All rights reserved.</p>
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>
