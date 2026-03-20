@@ -143,6 +143,10 @@ export default function Menu() {
             <span>thebiryanibaithak21@gmail.com</span>
           </a>
         </div>
+        <p className="text-gray-400 text-sm flex items-center justify-center gap-2 my-3">
+          <span className="material-icons text-[#E8D595] text-sm">location_on</span>
+          157/1 SBI Road, Chander Nagar, Alambagh, Lucknow 226005
+        </p>
         <p className="text-gray-500">© 2026. All rights reserved.</p>
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>

@@ -21,7 +21,7 @@ export default function Cart() {
   const taxRate = 0.05;
   const tax = Math.round(subtotal * taxRate);
   const packagingCharges = 10;
-  const deliveryCharges = subtotal < 600 ? 50 : 0;
+  const deliveryCharges = formData.orderType === "Takeaway" || subtotal >= 600 ? 0 : 50;
   const total = subtotal + tax + packagingCharges + deliveryCharges;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -175,7 +175,7 @@ export default function Cart() {
                       <span className="font-bold text-white">₹{deliveryCharges}</span>
                     )}
                   </div>
-                  {subtotal < 600 && (
+                  {subtotal < 600 && formData.orderType !== "Takeaway" && (
                     <div className="text-xs text-[#E8D595] bg-[#E8D595]/10 px-3 py-2 rounded-lg border border-[#E8D595]/20">
                       Add ₹{600 - subtotal} more for free delivery!
                     </div>
@@ -349,6 +349,10 @@ export default function Cart() {
             <span>thebiryanibaithak21@gmail.com</span>
           </a>
         </div>
+        <p className="text-gray-400 text-sm flex items-center justify-center gap-2 my-3">
+          <span className="material-icons text-[#E8D595] text-sm">location_on</span>
+          157/1 SBI Road, Chander Nagar, Alambagh, Lucknow 226005
+        </p>
         <p className="text-gray-500">© 2026. All rights reserved.</p>
         <p className="mt-1 text-gray-600 text-xs tracking-widest uppercase">Taste of Home</p>
       </footer>
